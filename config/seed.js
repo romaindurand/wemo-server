@@ -7,7 +7,7 @@
 const Thing = require('../api/thing/thing.model');
 const User = require('../api/user/user.model');
 
-Thing.find({}).removeAsync()
+Thing.removeAsync()
   .then(() => {
     Thing.create({
       name: 'Development Tools',

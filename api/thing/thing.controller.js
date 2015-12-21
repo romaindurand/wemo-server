@@ -42,7 +42,7 @@ function saveUpdates(updates) {
   return function (entity) {
     const updated = _.merge(entity, updates);
     return updated.saveAsync()
-      .then(data => data);
+      .spread(updated => updated);
   };
 }
 

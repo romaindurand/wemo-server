@@ -1,16 +1,13 @@
 'use strict';
 
-const chai = require('chai');
-const sinon = require('sinon');
-chai.should();
-chai.use(require('sinon-chai'));
-chai.use(require('chai-as-promised'));
-chai.use(require('chai-things'));
+const test = require('ava');
 
-const app = require('../..');
+const app = require('../../app'); // eslint-disable-line no-unused-vars
+
 const User = require('./user.model');
-var user;
-var genUser = function() {
+let user;
+
+const genUser = function () {
   user = new User({
     provider: 'local',
     name: 'Fake User',
@@ -20,60 +17,51 @@ var genUser = function() {
   return user;
 };
 
-describe('User Model', function() {
-  before(function() {
-    // Clear users before testing
-    return User.removeAsync();
+test.beforeEach(() => {
+  genUser();
+  return User.removeAsync();
+});
+
+test.after(() => User.removeAsync());
+
+test.serial('User Model should fail when saving a duplicate user', t => {
+  t.plan(1);
+
+  return t.throws(user.saveAsync().then(() => {
+    const userDup = genUser();
+    return userDup.saveAsync();
+  }));
+});
+
+test.serial('User Model should fail when saving without an email', t => {
+  t.plan(1);
+
+  user.email = '';
+  return t.throws(user.saveAsync());
+});
+
+test.serial('User Model should authenticate user if valid', t => {
+  t.plan(1);
+
+  return user.saveAsync().then(() => {
+    t.ok(user.authenticate('password'));
   });
+});
 
-  beforeEach(function() {
-    genUser();
+test.serial('User Model should not authenticate user if invalid', t => {
+  t.plan(1);
+
+  return user.saveAsync().then(() => {
+    t.notOk(user.authenticate('blah'));
   });
+});
 
-  afterEach(function() {
-    return User.removeAsync();
+test.serial('User Model should remain the same hash unless the password is updated', t => {
+  t.plan(1);
+
+  user.name = 'Test User';
+
+  return user.saveAsync().spread(currentUser => {
+    t.ok(currentUser.authenticate('password'));
   });
-
-  it('should begin with no users', function() {
-    return User.findAsync({}).should
-      .eventually.have.length(0);
-  });
-
-  it('should fail when saving a duplicate user', function() {
-    return user.saveAsync()
-      .then(function() {
-        var userDup = genUser();
-        return userDup.saveAsync();
-      }).should.be.rejected;
-  });
-
-  describe('#email', function() {
-    it('should fail when saving without an email', function() {
-      user.email = '';
-      return user.saveAsync().should.be.rejected;
-    });
-  });
-
-  describe('#password', function() {
-    beforeEach(function() {
-      return user.saveAsync();
-    });
-
-    it('should authenticate user if valid', function() {
-      user.authenticate('password').should.be.true;
-    });
-
-    it('should not authenticate user if invalid', function() {
-      user.authenticate('blah').should.not.be.true;
-    });
-
-    it('should remain the same hash unless the password is updated', function() {
-      user.name = 'Test User';
-      return user.saveAsync()
-        .spread(function(u) {
-          return u.authenticate('password');
-        }).should.eventually.be.true;
-    });
-  });
-
 });

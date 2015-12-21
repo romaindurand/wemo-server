@@ -1,72 +1,70 @@
 'use strict';
 
-const chai = require('chai');
-const sinon = require('sinon');
-chai.should();
-chai.use(require('sinon-chai'));
-chai.use(require('chai-as-promised'));
-chai.use(require('chai-things'));
-
-const app = require('../..');
-const User = require('./user.model');
+const test = require('ava');
 const request = require('supertest');
 
-describe('User API:', function() {
-  var user;
+const chai = require('chai');
+chai.should();
+chai.use(require('sinon-chai'));
 
-  // Clear users before testing
-  before(function() {
-    return User.removeAsync().then(function() {
-      user = new User({
-        name: 'Fake User',
-        email: 'test@example.com',
-        password: 'password'
-      });
+const app = require('../..');
 
-      return user.saveAsync();
-    });
+const User = require('./user.model');
+
+let user;
+let token;
+
+test.before(() => User.removeAsync().then(() => {
+  user = new User({
+    name: 'Fake User',
+    email: 'test@example.com',
+    password: 'password'
   });
 
-  // Clear users after testing
-  after(function() {
-    return User.removeAsync();
-  });
+  return user.saveAsync();
+}));
 
-  describe('GET /api/users/me', function() {
-    var token;
+test.after(() => User.removeAsync());
 
-    before(function(done) {
-      request(app)
-        .post('/auth/local')
-        .send({
-          email: 'test@example.com',
-          password: 'password'
-        })
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          token = res.body.token;
-          done();
-        });
+test.serial.cb('User API GET /auth/local should respond with token', t => {
+  request(app)
+    .post('/auth/local')
+    .send({
+      email: 'test@example.com',
+      password: 'password'
+    })
+    .expect(200)
+    .expect('Content-Type', /json/)
+    .end((err, res) => {
+      if (err) {
+        return t.end(err);
+      }
+      token = res.body.token;
+
+      t.ok(token);
+      t.end();
     });
+});
 
-    it('should respond with a user profile when authenticated', function(done) {
-      request(app)
-        .get('/api/users/me')
-        .set('authorization', 'Bearer ' + token)
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          res.body._id.toString().should.equal(user._id.toString());
-          done();
-        });
-    });
+test.serial.cb('User API GET /api/users/me should respond with a user profile when authenticated', t => {
+  request(app)
+  .get('/api/users/me')
+    .set('authorization', `Bearer ${token}`)
+    .expect(200)
+    .expect('Content-Type', /json/)
+    .end((err, res) => {
+      if (err) {
+        return t.end(err);
+      }
 
-    it('should respond with a 401 when not authenticated', function(done) {
-      request(app)
-        .get('/api/users/me')
-        .expect(401)
-        .end(done);
+      t.is(res.body._id, user._id.toString());
+      t.end();
     });
-  });
+});
+
+test.serial.cb('User API GET /api/users/me should respond with a 401 when not authenticated', t => {
+  request(app)
+  .get('/api/users/me')
+    .expect(401)
+    .end(t.end);
 });
