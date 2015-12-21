@@ -54,7 +54,7 @@
   },
   "scripts": {
     "start": "nodemon -e js app.js",
-    "test": "eslint ."
+    "test": "eslint . && NODE_ENV=test ava **/index.spec.js && NODE_ENV=test ava api/thing/thing.model.spec.js && NODE_ENV=test ava api/user/user.model.spec.js  && NODE_ENV=test ava api/thing/thing.integration.js && NODE_ENV=test ava api/user/user.integration.js"
   },
   "private": true,
   "eslintConfig": {
