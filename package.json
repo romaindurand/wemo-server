@@ -45,6 +45,7 @@
     "eslint": "^1.10.3",
     "eslint-config-xo-space": "^0.8.0",
     "eslint-plugin-babel": "^3.0.0",
+    "istanbul": "^0.4.1",
     "mocha": "*",
     "nodemon": "^1.8.1",
     "proxyquire": "^1.7.3",
@@ -54,7 +55,7 @@
   },
   "scripts": {
     "start": "nodemon -e js app.js",
-    "test": "eslint . && NODE_ENV=test mocha api/**/*.spec.js && NODE_ENV=test mocha api/**/*.integration.js"
+    "test": "eslint . && NODE_ENV=test istanbul cover _mocha -- api/**/*.spec.js api/**/*.integration.js"
   },
   "private": true,
   "eslintConfig": {
