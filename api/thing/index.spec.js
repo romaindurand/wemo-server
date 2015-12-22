@@ -34,6 +34,7 @@ const thingIndex = proxyquire('./index.js', {
   },
   './thing.controller': thingCtrlStub
 });
+
 describe('Thing API Router:', () => {
   it('should return an express router instance', () => {
     thingIndex.should.equal(routerStub);

@@ -45,8 +45,13 @@
     "eslint": "^1.10.3",
     "eslint-config-xo-space": "^0.8.0",
     "eslint-plugin-babel": "^3.0.0",
-    "istanbul": "^0.4.1",
-    "mocha": "*",
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^1.0.0",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-istanbul": "^0.10.3",
+    "gulp-mocha": "^2.0.0",
+    "gulp-nsp": "^2.1.0",
+    "gulp-plumber": "^1.0.0",
     "nodemon": "^1.8.1",
     "proxyquire": "^1.7.3",
     "sinon": "^1.17.2",
@@ -55,7 +60,7 @@
   },
   "scripts": {
     "start": "nodemon -e js app.js",
-    "test": "eslint . && NODE_ENV=test istanbul cover _mocha -- api/**/*.spec.js api/**/*.integration.js"
+    "test": "NODE_ENV=test gulp"
   },
   "private": true,
   "eslintConfig": {
