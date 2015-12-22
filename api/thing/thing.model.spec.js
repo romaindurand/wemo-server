@@ -1,6 +1,8 @@
 'use strict';
 
-const test = require('ava');
+const chai = require('chai');
+chai.should();
+chai.use(require('sinon-chai'));
 
 const app = require('../../app'); // eslint-disable-line no-unused-vars
 
@@ -16,16 +18,14 @@ const genThing = function () {
   return thing;
 };
 
-test.beforeEach(() => {
-  genThing();
-});
-
-test.afterEach(() => Thing.removeAsync(thing));
-
-test('Thing Model should save thing', t => {
-  t.plan(1);
-
-  return thing.saveAsync().then(result => {
-    t.same(result[0], thing);
+describe('Thing Model:', () => {
+  beforeEach(() => {
+    genThing();
   });
+
+  afterEach(() => Thing.removeAsync(thing));
+
+  it('should save thing', () => thing.saveAsync().then(result => {
+    result[0].should.deep.equal(thing);
+  }));
 });

@@ -7,7 +7,6 @@ const chai = require('chai');
 chai.should();
 chai.use(require('sinon-chai'));
 
-const test = require('ava');
 const proxyquire = require('proxyquire').noPreserveCache();
 
 const thingCtrlStub = {
@@ -35,57 +34,56 @@ const thingIndex = proxyquire('./index.js', {
   },
   './thing.controller': thingCtrlStub
 });
+describe('Thing API Router:', () => {
+  it('should return an express router instance', () => {
+    thingIndex.should.equal(routerStub);
+  });
 
-test('Thing API Router should return an express router instance', t => {
-  t.plan(1);
+  describe('GET /api/things', () => {
+    it('should route to thing.controller.index', () => {
+      routerStub.get
+        .withArgs('/', 'thingCtrl.index')
+        .should.have.been.calledOnce;
+    });
+  });
 
-  t.is(thingIndex, routerStub);
-});
+  describe('GET /api/things/:id', () => {
+    it('should route to thing.controller.show', () => {
+      routerStub.get
+        .withArgs('/:id', 'thingCtrl.show')
+        .should.have.been.calledOnce;
+    });
+  });
 
-test('Thing API GET /api/things should route to thing.controller.index', t => {
-  t.plan(1);
+  describe('POST /api/things', () => {
+    it('should route to thing.controller.create', () => {
+      routerStub.post
+        .withArgs('/', 'thingCtrl.create')
+        .should.have.been.calledOnce;
+    });
+  });
 
-  t.ok(routerStub.get
-    .withArgs('/', 'thingCtrl.index').should.have.been.calledOnce
-  );
-});
+  describe('PUT /api/things/:id', () => {
+    it('should route to thing.controller.update', () => {
+      routerStub.put
+        .withArgs('/:id', 'thingCtrl.update')
+        .should.have.been.calledOnce;
+    });
+  });
 
-test('Thing API GET /api/things/:id should route to thing.controller.show', t => {
-  t.plan(1);
+  describe('PATCH /api/things/:id', () => {
+    it('should route to thing.controller.update', () => {
+      routerStub.patch
+        .withArgs('/:id', 'thingCtrl.update')
+        .should.have.been.calledOnce;
+    });
+  });
 
-  t.ok(routerStub.get
-    .withArgs('/:id', 'thingCtrl.show').should.have.been.calledOnce
-  );
-});
-
-test('Thing API POST /api/things should route to thing.controller.create', t => {
-  t.plan(1);
-
-  t.ok(routerStub.post
-    .withArgs('/', 'thingCtrl.create').should.have.been.calledOnce
-  );
-});
-
-test('Thing API PUT /api/things/:id should route to thing.controller.update', t => {
-  t.plan(1);
-
-  t.ok(routerStub.put
-    .withArgs('/:id', 'thingCtrl.update').should.have.been.calledOnce
-  );
-});
-
-test('Thing API PATCH /api/things/:id should route to thing.controller.update', t => {
-  t.plan(1);
-
-  t.ok(routerStub.patch
-    .withArgs('/:id', 'thingCtrl.update').should.have.been.calledOnce
-  );
-});
-
-test('Thing API DELETE /api/things/:id should route to thing.controller.destroy', t => {
-  t.plan(1);
-
-  t.ok(routerStub.delete
-    .withArgs('/:id', 'thingCtrl.destroy').should.have.been.calledOnce
-  );
+  describe('DELETE /api/things/:id', () => {
+    it('should route to thing.controller.destroy', () => {
+      routerStub.delete
+        .withArgs('/:id', 'thingCtrl.destroy')
+        .should.have.been.calledOnce;
+    });
+  });
 });

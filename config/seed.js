@@ -9,7 +9,7 @@ const User = require('../api/user/user.model');
 
 Thing.removeAsync()
   .then(() => {
-    Thing.create({
+    Thing.createAsync({
       name: 'Development Tools',
       info: 'Integration with popular tools such as Bower, Grunt, Babel, Karma, ' +
              'Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, ' +
@@ -42,7 +42,7 @@ Thing.removeAsync()
     });
   });
 
-User.find({}).removeAsync()
+User.removeAsync()
   .then(() => {
     User.createAsync({
       provider: 'local',
