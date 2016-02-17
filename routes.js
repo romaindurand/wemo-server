@@ -4,8 +4,6 @@
 
 'use strict';
 
-const errors = require('./components/errors');
-
 module.exports = function (app) {
   // Insert routes below
   app.use('/api/things', require('./api/thing'));
@@ -17,7 +15,9 @@ module.exports = function (app) {
 
   // All undefined asset or api routes should return a 404
   app.route('/:url(api)/*')
-   .get(errors[404]);
+    .get((req, res) => {
+      res.status(404).json({message: 'Not found'});
+    });
 
   // All other routes should redirect to the 'Hello World!'
   app.route('/*')

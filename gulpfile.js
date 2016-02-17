@@ -9,7 +9,7 @@ const nsp = require('gulp-nsp');
 const plumber = require('gulp-plumber');
 
 gulp.task('static', () => {
-  return gulp.src('api/**/*.js')
+  return gulp.src('**/*.js')
     .pipe(excludeGitignore())
     .pipe(eslint())
     .pipe(eslint.format())
@@ -30,11 +30,9 @@ gulp.task('pre-test', () => {
 });
 
 gulp.task('test', ['pre-test'], () => {
-  let mochaErr;
-
-  gulp.src(['api/**/*.spec.js', 'api/**/*.integration.js'])
+  gulp.src(['api/**/*.spec.js', 'api/**/*.integration.js', 'test/**/*.js'])
     .pipe(plumber())
-    .pipe(mocha({reporter: 'nyan'}))
+    .pipe(mocha({reporter: 'spec'}))
     .once('error', () => {
       process.exit(1);
     })
