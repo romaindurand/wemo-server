@@ -3,7 +3,7 @@
 const express = require('express');
 const controller = require('./thing.controller');
 
-const router = express.Router(); // eslint-disable-line new-cap
+const router = express.Router(); // eslint-disable-line babel/new-cap
 
 router.get('/', controller.index);
 router.get('/:id', controller.show);

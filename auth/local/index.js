@@ -4,7 +4,7 @@ const express = require('express');
 const passport = require('passport');
 const auth = require('../auth.service');
 
-const router = express.Router(); // eslint-disable-line new-cap
+const router = express.Router(); // eslint-disable-line babel/new-cap
 
 router.post('/', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
