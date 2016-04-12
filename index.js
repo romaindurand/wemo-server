@@ -16,6 +16,11 @@ client.on('found', function (device) {
         return;
     }
 
+
+    if (!!getDevice(device.friendlyName)) {
+        console.log("Device '" + device.friendlyName + "' already registered");
+        return;
+    }
     devices.push({
         name: device.friendlyName,
         ip: device.ip,
@@ -76,9 +81,18 @@ app.get('/', function (req, res) {
         });
     });
 });
+app.use(express.static('public'));
+
+app.get("/list", function (req, res) {
+    res.send({ devices });
+});
 
 app.listen(3000, function () {
     console.log('Example app listening on port 3000!');
 });
 
 app.use(express.static('public'));
+
+function getDevice(name) {
+    return devices.find(device => device.name === name);
+}
