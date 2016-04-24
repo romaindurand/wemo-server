@@ -10,9 +10,11 @@
   "author": "@romaindurand",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "wemo": "~0.2.1",
-    "jquery": "~2.2.3",
+    "body-parser": "^1.15.0",
     "express": "~4.13.4",
-    "lodash": "~4.10.0"
+    "jquery": "~2.2.3",
+    "lodash": "~4.10.0",
+    "node-schedule": "^1.1.0",
+    "wemo": "~0.2.1"
   }
 }
