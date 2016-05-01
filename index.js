@@ -4,6 +4,7 @@ var Wemo = require("wemo");
 var _ = require("lodash");
 var bodyParser = require('body-parser');
 var schedule = require('node-schedule');
+var CronJob = require('cron').CronJob;
 var client = Wemo.Search();
 var devices = [];
 var alarms = [];
@@ -34,6 +35,15 @@ client.on('found', function (device) {
     });
     console.log("Device registered.");
 });
+
+new CronJob('0 8 * * *', function(){
+    playAction({
+        action: "on",
+        name: "lumiereLit",
+        onSuccess: _.noop,
+        onError: _.noop
+    });
+}, null, true);
 
 app.post('/alarms/add', function (req, res) {
     var deviceName = req.body.name;
@@ -135,14 +145,18 @@ function setDeviceState(conf) {
 }
 
 function playAction(conf) {
+    var defaultConf = {
+      name: conf.name  
+    };
     switch (conf.action) {
         case "on":
-            setDeviceState({
-                name: conf.name,
-                state: 1,
-                onSuccess: conf.onSuccess,
-                onError: conf.onError
-            });
+            conf.state = 1;
+            setDeviceState(conf);
+            break;
+            
+        case "off":
+            conf.state = 0;
+            setDeviceState(conf);
             break;
     };
 }
