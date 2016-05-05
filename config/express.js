@@ -5,7 +5,6 @@
 'use strict';
 
 const morgan = require('morgan');
-const passport = require('passport');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
@@ -20,7 +19,6 @@ module.exports = function (app) {
   app.use(bodyParser.json());
   app.use(methodOverride());
   app.use(cookieParser());
-  app.use(passport.initialize());
 
   if (env === 'production') {
     app.use(morgan('dev'));
