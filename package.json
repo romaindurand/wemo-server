@@ -32,7 +32,8 @@
     "lodash": "^4.6.1",
     "method-override": "^2.3.5",
     "mongoose": "^4.4.7",
-    "morgan": "^1.7.0"
+    "morgan": "^1.7.0",
+    "wemo": "^0.2.1"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.0-beta.6",
