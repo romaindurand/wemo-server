@@ -5,7 +5,6 @@
 'use strict';
 
 const Thing = require('../api/thing/thing.model');
-const User = require('../api/user/user.model');
 
 Thing.removeAsync()
   .then(() => {
@@ -39,24 +38,5 @@ Thing.removeAsync()
     })
     .then(() => {
       console.log('finished populating things');
-    });
-  });
-
-User.removeAsync()
-  .then(() => {
-    User.createAsync({
-      provider: 'local',
-      name: 'Test User',
-      email: 'test@example.com',
-      password: 'test'
-    }, {
-      provider: 'local',
-      role: 'admin',
-      name: 'Admin',
-      email: 'admin@example.com',
-      password: 'admin'
-    })
-    .then(() => {
-      console.log('finished populating users');
     });
   });
