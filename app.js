@@ -8,20 +8,7 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const express = require('express');
-const mongoose = require('mongoose');
 const config = require('./config/environment');
-
-// Connect to MongoDB
-mongoose.connect(config.mongo.uri, config.mongo.options);
-mongoose.connection.on('error', err => {
-  console.error(`MongoDB connection error: ${err}`);
-  process.exit(-1);
-});
-
-// Populate databases with sample data
-if (config.seedDB) {
-  require('./config/seed');
-}
 
 // Setup server
 const app = express();
