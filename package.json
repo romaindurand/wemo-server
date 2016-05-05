@@ -1,16 +1,15 @@
 {
-  "name": "boilerplate-expressjs",
+  "name": "wemo-server",
   "version": "0.0.1",
-  "description": "Boilerplate for JSON API",
+  "description": "Wemo JSON API",
   "homepage": "",
   "author": {
-    "name": "Mehdy Dara",
-    "email": "mdara@eleven-labs.com",
-    "url": "https://github.com/zckrs"
+    "name": "Romain Durand",
+    "email": "sirius2006@gmail.com",
+    "url": "https://github.com/romaindurand"
   },
   "files": [
     "api/",
-    "components/",
     "config/",
     "app.js",
     "routes.js"
@@ -21,25 +20,22 @@
     "json",
     "api"
   ],
-  "repository": "zckrs/boilerplate-expressjs",
+  "repository": "romaindurand/wemo-server",
   "dependencies": {
     "body-parser": "^1.15.0",
-    "composable-middleware": "^0.3.0",
     "compression": "^1.6.1",
     "cookie-parser": "^1.4.1",
     "cron": "^1.1.0",
     "errorhandler": "^1.4.3",
     "express": "^4.13.4",
-    "lodash": "^4.6.1",
+    "lodash.merge": "^4.3.5",
     "method-override": "^2.3.5",
-    "mongoose": "^4.4.7",
     "morgan": "^1.7.0",
     "wemo": "^0.2.1"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.0-beta.6",
     "chai": "^3.5.0",
-    "chai-as-promised": "^5.2.0",
     "eslint": "^2.4.0",
     "eslint-config-xo-space": "^0.13.0",
     "eslint-plugin-babel": "^3.1.0",
@@ -51,7 +47,6 @@
     "gulp-nsp": "^2.3.1",
     "gulp-plumber": "^1.1.0",
     "nodemon": "^1.9.1",
-    "proxyquire": "^1.7.4",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "supertest": "^1.2.0"

@@ -8,7 +8,7 @@ chai.use(require('sinon-chai'));
 
 const app = require('../app');
 
-describe('boilerplate-expressjs:', () => {
+describe('wemo-server:', () => {
   it('should respond to ping', done => {
     request(app)
       .get('/')

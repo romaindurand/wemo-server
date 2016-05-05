@@ -74,13 +74,11 @@ const jobWakeUp = new CronJob('*/2 30 11 * * 1-5',
       });
     }
   });
-}, () => {
-    /* This function is executed when the job stops */
-}
-);
+});
 
 setTimeout(() => {
   jobWakeUp.start();
+  console.log('CRON jobWakeUp running !');
 }, 1500);
 
 exports.toggle = function (req, res) {

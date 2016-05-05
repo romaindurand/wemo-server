@@ -1,6 +1,6 @@
 'use strict';
 
-const _ = require('lodash');
+const _merge = require('lodash.merge');
 
 // All configurations will extend these options
 // ============================================
@@ -11,32 +11,11 @@ const all = {
   port: process.env.PORT || 9000,
 
   // Server IP
-  ip: process.env.IP || '0.0.0.0',
-
-  // Should we populate the DB with sample data?
-  seedDB: false,
-
-  // Secret for session, you will want to change this and make it an environment variable
-  session: {
-    secrets: 'test-secret',
-    ttl: 18000
-  },
-
-  // List of user roles
-  userRoles: ['guest', 'user', 'admin'],
-
-  // MongoDB connection options
-  mongo: {
-    options: {
-      db: {
-        safe: true
-      }
-    }
-  }
+  ip: process.env.IP || '0.0.0.0'
 };
 
 // Export the config object based on the NODE_ENV
 // ==============================================
-module.exports = _.merge(
+module.exports = _merge(
   all,
   require(`./${process.env.NODE_ENV}.js`) || {});

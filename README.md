@@ -1,11 +1,11 @@
-# boilerplate-expressjs
+# wemo-server
 > JSON API
 
 ## Installation
 
 ```sh
-$ git clone git@github.com:zckrs/boilerplate-expressjs.git
-$ cd boilerplate-expressjs
+$ git clone git@github.com:romaindurand/wemo-server.git
+$ cd wemo-server
 $ npm install
 ```
 
@@ -23,4 +23,4 @@ $ npm test
 
 ## License
 
-MIT © [Mehdy Dara](https://github.com/zckrs)
+MIT © [Romain Durand](https://github.com/romaindurand)
