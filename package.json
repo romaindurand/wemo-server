@@ -27,6 +27,7 @@
     "composable-middleware": "^0.3.0",
     "compression": "^1.6.1",
     "cookie-parser": "^1.4.1",
+    "cron": "^1.1.0",
     "errorhandler": "^1.4.3",
     "express": "^4.13.4",
     "lodash": "^4.6.1",

@@ -1,6 +1,7 @@
 'use strict';
 
 const Wemo = require('wemo');
+const CronJob = require('cron').CronJob;
 
 const wClient = Wemo.Search(); // eslint-disable-line babel/new-cap
 
@@ -50,6 +51,37 @@ wClient.on('found', device => {
   });
   console.log(`New device '${device.friendlyName}' registered`);
 });
+
+const jobWakeUp = new CronJob('*/2 30 11 * * 1-5',
+() => {
+  /*
+   * Runs every weekday (Monday through Friday)
+   * at 11:30:00 AM. It does not run on Saturday
+   * or Sunday.
+   */
+  toggleDevice({
+    name: 'lumiereLit',
+    onSuccess: () => {
+      console.log({
+        success: true,
+        message: 'OK'
+      });
+    },
+    onError: err => {
+      console.error({
+        success: false,
+        message: err
+      });
+    }
+  });
+}, () => {
+    /* This function is executed when the job stops */
+}
+);
+
+setTimeout(() => {
+  jobWakeUp.start();
+}, 1500);
 
 exports.toggle = function (req, res) {
   // if (devices.find(device => device.name === req.params.name)) {
